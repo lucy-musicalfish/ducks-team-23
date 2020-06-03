@@ -112,6 +112,54 @@ Video Meeting: Monday Wednesday Friday 1pm
 * Stephen - Write core code, document additions to code
 * Toby - helping with code, make notes on changes
 
+**Week Three Objectives**
+
+**DATE:** Week Ending 21 June
+
+
+**Objectives:** Challenge, Logs
+
+
+**Due Date:** 19 June
+
+
+**Item Due:** All Code
+
+
+**Conflicts:**
+* ENGR121 Test Two - 17 June
+* COMP102 Assignment 9 - Due 18 June
+
+
+**Tasks:**
+* Lucy - 
+* Liam -
+* Stephen - 
+* Toby - 
+
+
+**Week Four Objectives**
+
+**DATE:** Week Ending 28 June
+
+
+**Objectives:** Finish Project
+
+
+**Due Date:** 24 June
+
+
+**Item Due:** Group and Individual Logs
+
+
+**Conflicts:** Potentially CYBR171 Test
+
+
+**Tasks:**
+* Lucy - 
+* Liam -
+* Stephen - 
+* Toby - 
 
 **INSTALL:**
 
