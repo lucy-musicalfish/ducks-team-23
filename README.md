@@ -59,24 +59,59 @@ Github: https://github.com/lucy-musicalfish/CodingForDucks
 **Week One Objectives**
 
 
-### DATE:
-Week Ending 5 June 
-### Objectives:
-Start the Project
-### Due Date:
-4 June
-### Item Due:
-AVC Plan
-### Conflicts:
+**DATE:** Week Ending 5 June
+
+
+**Objectives:** Start the Project
+
+
+**Due Date:** 4 June
+
+
+**Item Due:** AVC Plan
+
+
+**Conflicts:**
 * ENGR121 Assignment 6 Due 3 June
 * COMP102 Assignment 7 Due 4 June
 * ENGR121 Lab 3 Due 5 June
-### Tasks:
+
+
+**Tasks:**
+
+
 All: Complete AVC plan
 * Lucy - Finish the written plan and edit it, put all the wiki stuff on the plan doc
 * Stephen - Find Arthurs Github. Email and ask what exactly does the plan need to have.
 * Liam - Help Toby sort SFML. 
 * Toby - Email Arthur, sort SFML
+
+**Week Two Objectives**
+
+**DATE:** Week Ending 14 June
+
+
+**Objectives:** Core and Completion
+
+
+**Due Date:** 11 June
+
+
+**Item Due:** Core Code
+
+
+**Conflicts:**
+
+
+**Tasks:**
+
+
+Video Meeting: Monday Wednesday Friday 1pm
+* Lucy - Updating progress on github and wiki, checking all issues on github, distribute tutorials
+* Liam - helping with code, make notes on changes
+* Stephen - Write core code, document additions to code
+* Toby - helping with code, make notes on changes
+
 
 **INSTALL:**
 
