@@ -56,6 +56,27 @@ Toby - Software Writer (Writing, testing and documenttaion. Debugging software a
 
 Github: https://github.com/lucy-musicalfish/CodingForDucks
 
+**Week One Objectives**
+
+
+### DATE:
+Week Ending 5 June 
+### Objectives:
+Start the Project
+### Due Date:
+4 June
+### Item Due:
+AVC Plan
+### Conflicts:
+* ENGR121 Assignment 6 Due 3 June
+* COMP102 Assignment 7 Due 4 June
+* ENGR121 Lab 3 Due 5 June
+### Tasks:
+All: Complete AVC plan
+* Lucy - Finish the written plan and edit it, put all the wiki stuff on the plan doc
+* Stephen - Find Arthurs Github. Email and ask what exactly does the plan need to have.
+* Liam - Help Toby sort SFML. 
+* Toby - Email Arthur, sort SFML
 
 **INSTALL:**
 
@@ -65,7 +86,7 @@ Go to https://www.sfml-dev.org/download/sfml/2.5.1/ and download the MinGW 32 bi
 
 **Step 2:**
 
-Download the AVC_Win10.zip from the attachments in Assignment 3 page. Extract this to any file location you want E.G. C:\User\Documents\ENGR101\Assignment\Project 3 You will have two folders AVC_robot and AVC_server.
+Download the AVC_server and AVC_robot from the Master branch of CodingForDucks GitHub page. Put this file anywhere you want E.G. C:\User\Documents\ENGR101\Assignment\Project 3
 
 **Step 3:**
 
