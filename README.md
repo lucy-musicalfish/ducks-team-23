@@ -4,7 +4,7 @@ ENGR101 Project 3 Team 23
 This is our Read Me file, we will use this to keep track of all the files. I will update this regularly when I see new files/anything changes - Lucy
 
 Planning is being done on the wiki.
-I will add all changes to the official planning doc as well. 
+I will add all changes to here (the ReadMe) as well
 
 please make sure you have all read the project 3 document fully and properly, and understand it. Especially the stuff around the marking. 
 
@@ -107,7 +107,7 @@ All: Complete AVC plan
 
 
 Video Meeting: Monday Wednesday Friday 1pm
-* Lucy - Updating progress on github and wiki, checking all issues on github, distribute tutorials
+* Lucy - Updating progress on github and wiki, checking all issues on github, distribute tutorials, help with code?
 * Liam - helping with code, make notes on changes
 * Stephen - Write core code, document additions to code
 * Toby - helping with code, make notes on changes
