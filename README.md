@@ -165,7 +165,11 @@ Video Meeting: Monday Wednesday Friday 1pm
 
 **Step 1:**
 
-Go to https://www.sfml-dev.org/download/sfml/2.5.1/ and download the MinGW 32 bit or 64 bit version depending on your system. Unzip this file into C:\ (If you can't exact here, anywhere is fine. I will explain what to do in later steps).
+Go to https://www.sfml-dev.org/download/sfml/2.5.1/ and download the MinGW 32 bit. Unzip this file into C:\ (If you can't exact here, anywhere is fine. I will explain what to do in later steps). ENSURE your MinGW version is also the same version as SFML (7.3.0).
+
+**Step 1.1**
+
+Checking MinGW version. Open windows powershell, (search powershell), type g++ --version. It will then display the MinGW version installed on the first line at the very end. Should be 7.3.0 if not install this version else you will run into issues.
 
 **Step 2:**
 
