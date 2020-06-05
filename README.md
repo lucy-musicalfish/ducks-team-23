@@ -81,10 +81,10 @@ Github: https://github.com/lucy-musicalfish/CodingForDucks
 
 
 All: Complete AVC plan
-* Lucy - Finish the written plan and edit it, put all the wiki stuff on the plan doc
-* Stephen - Find Arthurs Github. Email and ask what exactly does the plan need to have.
-* Liam - Help Toby sort SFML. 
-* Toby - Email Arthur, sort SFML
+* Lucy - Finish the written plan and edit it, put all the wiki stuff on the plan doc. Make the excel spreadsheet to keep records for the individual logs. Post on github for download by monday 8th june meeting
+* Stephen - Find Arthurs Github. Email and ask what exactly does the plan need to have. Help install SFML stuff
+* Liam - Help Toby sort SFML. Liam is moving back to wellington this week, so will be in and out.
+* Toby - Email Arthur, sort SFML. If possible, make a start on looking at the code and getting ideas up. 
 
 **Week Two Objectives**
 
@@ -107,10 +107,12 @@ All: Complete AVC plan
 
 
 Video Meeting: Monday Wednesday Friday 1pm
-* Lucy - Updating progress on github and wiki, checking all issues on github, distribute tutorials, help with code?
-* Liam - helping with code, make notes on changes
-* Stephen - Write core code, document additions to code
-* Toby - helping with code, make notes on changes
+* Lucy - Updating progress on github and wiki, help resolve issues on Github. Make an excel doc for logging hours and distribute to team
+* Liam - Writing code, make notes on changes. Keep track of hours and logs
+* Stephen - Write core code, document additions to code. Mark any issues on Github. Keep track of hours and logs. Photoshop our own duck photos. 
+* Toby - Writing code, make notes on changes. Keep track of your hours and logs
+
+* All - Keep track of hours, excel doc will be posted on github for all to download and use to keep track of hours by Monday meeting. Will check in about making sure everyone is keeping on top of keeping records at fridays meeting
 
 **Week Three Objectives**
 
@@ -132,10 +134,10 @@ Video Meeting: Monday Wednesday Friday 1pm
 
 
 **Tasks:**
-* Lucy - 
-* Liam -
-* Stephen - 
-* Toby - 
+* Lucy - Ensure all documentation is on github, on the readme. Make sure everyones logs are up to scratch. Edit and proofread stuff. Assist Liam with the install testing stuff
+* Liam - Find someone to test the install procedure on - make sure it fits the marking criteria of "There should be clear instructions (imagine that you are writing a game for 12 years old) on how to install (download, compile, build and run) your code from the scratch (including SFML library) in Install section of README.md. It is acceptable to provide version for specific Operating System.". 
+* Stephen - Keep working on code
+* Toby - Make sure all bugs are fixed. 
 
 
 **Week Four Objectives**
