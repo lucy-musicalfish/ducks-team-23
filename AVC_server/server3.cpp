@@ -297,13 +297,27 @@ int configAVC(){
 	}
 	// read maze filename and robot configuration
 	std::string mazeFileName;
+	std::string maze = "";
+	while(true){
+		std::cout<<"Please Select Maze \"core\", \"completion\", \"challenge\" (lowercase only)";
+		std::cin>> maze;
+		if (maze == "core"){
+			break;
+		}else if(maze == "completion"){
+			break;
+		}else if(maze == "challenge"){
+			break;
+		}
+		std::cout<<"Sorry you did not input a maze name";
+	}
 	std::string s;
+	std::cout<<mazeFileName;
   	while (inputFile>>s) {
 		 //std::cout<<s<<std::endl;
 		 std::vector<std::string> v = split(s, ',');
          for (auto i : v) {
 		   std::cout << i << " ";
-		   if (v[0] == "mazeFile"){mazeFileName = v[1];}
+		   if (v[0] == "mazeFile"){mazeFileName = maze + ".txt";} // = v[1];}
 		   if (v[0] == "robot.pos.x"){robot.pos.x = std::stod(v[1]);}
 		   if (v[0] == "robot.pos.y"){robot.pos.y = std::stod(v[1]);}
 		   if (v[0] == "robot.azimuth"){robot.azimuth = std::stod(v[1]);}
