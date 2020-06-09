@@ -110,10 +110,12 @@ int main(){
     while(1){
 		if (robotVersion == "core"){
 			core(vLeft, vRight);
+		} else if (robotVersion == "completion") {
+			completion(vLeft, vRight);
 		}
-		
+				
   } //while
-  
+   
   return 0;
 
 } // main
