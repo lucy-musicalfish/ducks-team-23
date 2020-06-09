@@ -197,9 +197,7 @@ While the server program is still running. Open robot.cpp from AVC_robot. Geany 
 **NOTES:**
 
 Core works, now need to finesse it.
-
 We will have video meetings on Monday/Wednesday/Friday at 1pm. Notes from the meetings are on the Wiki.
-
 Emailed Arthur with a few questions
-
 Changed the github photo, made it a duck photo
+completion is up, doesnt work yet. The robot will run, but thats about it.
