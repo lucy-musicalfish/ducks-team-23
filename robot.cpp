@@ -9,6 +9,48 @@ void core(double vLeft, double vRight){
 	int error = 0;
 	double motorR = vRight;
 	double motorL = vLeft;
+	// for gets the current column and then gets the pixel at that column
+    for (int column = 0; column < 150; column++){
+		int pix = get_pixel(cameraView, 50, column, 3);
+		int isWhite;
+		
+		// checks if pixel colour is white
+		if(pix > 250){
+			isWhite = 1;
+			// determines the error that the white line is at. If the column of the white does not equal the rough middle of the camera
+			if(column != average - 2 || column != average - 1 || column != average || column != average + 1){
+				error = column - average;
+			}
+			
+		} else {
+			isWhite = 0;
+		}
+		std::cout<<isWhite<<" ";
+	}
+	
+	// calculates the error correction for the robot for left motor wheel
+	if (error > 0){
+		motorL = vLeft + error/vLeft;
+	
+	// calculates the error correction for the robot for right motor wheel
+	} else if(error < 0){
+		motorR = vRight - error/vRight;
+	}
+	
+	// sets motor speed
+	setMotors(motorL,motorR);   
+    std::cout<<"\nvLeft="<<motorL<<"  vRight="<<motorR<<std::endl;
+    usleep(10000);
+        
+}
+void completion(double vLeft, double vRight) {
+	 
+	takePicture();
+	int row = 75;
+	int average = (74 + 75 + 76 + 77) /4;
+	int error = 0;
+	double motorR = vRight;
+	double motorL = vLeft;
 	// for gets the current column and the gets the pixel at that column
     for (int column = 0; column < 150; column++){
 		int pix = get_pixel(cameraView, 50, column, 3);
@@ -43,7 +85,6 @@ void core(double vLeft, double vRight){
     usleep(10000);
         
 }
-
 int main(){
 	if (initClientRobot() !=0){
 		std::cout<<" Error initializing robot"<<std::endl;
