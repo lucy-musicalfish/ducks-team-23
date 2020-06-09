@@ -193,3 +193,9 @@ With server3.cpp still open, click build and then make, or Shift + F9. Click Exe
 
 While the server program is still running. Open robot.cpp from AVC_robot. Geany will still have the custom make commands saved in its build option. All you need to do is build and then make, or Shift + F9. You then need to execute robot.cpp (F5 by default). May need to execute twice to run the program.
 
+
+**NOTES:**
+
+Core works, now need to finesse it.
+
+We will have video meetings on Monday/Wednesday/Friday at 1pm. Notes from the meetings are on the Wiki.
