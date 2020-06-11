@@ -134,10 +134,10 @@ Video Meeting: Monday Wednesday Friday 1pm
 
 
 **Tasks:**
-* Lucy - Ensure all documentation is on github, on the readme. Make sure everyones logs are up to scratch. Edit and proofread stuff. Assist Liam with the install testing stuff
+* Lucy - Ensure all documentation is on github, on the readme. Make sure everyones logs are up to scratch. Edit and proofread stuff. Check all the issues are in place. 
 * Liam - Find someone to test the install procedure on - make sure it fits the marking criteria of "There should be clear instructions (imagine that you are writing a game for 12 years old) on how to install (download, compile, build and run) your code from the scratch (including SFML library) in Install section of README.md. It is acceptable to provide version for specific Operating System.". 
-* Stephen - Keep working on code
-* Toby - Make sure all bugs are fixed. 
+* Stephen - Keep working on code - finish challenge, and then work on tidying up the code
+* Toby - Make sure all bugs are fixed. Work on the code
 
 
 **Week Four Objectives**
@@ -194,6 +194,7 @@ With server3.cpp still open, click build and then make, or Shift + F9. Click Exe
 While the server program is still running. Open robot.cpp from AVC_robot. Geany will still have the custom make commands saved in its build option. All you need to do is build and then make, or Shift + F9. You then need to execute robot.cpp (F5 by default). May need to execute twice to run the program.
 
 **VERSIONS:**
+
 12/6/20: Stephen-Robot-Completion-v.0.2 is the current version. We will discuss merging things onto the master branch today.
 
 **NOTES:**
