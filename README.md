@@ -195,7 +195,8 @@ While the server program is still running. Open robot.cpp from AVC_robot. Geany 
 
 **VERSIONS:**
 
-12/6/20: Stephen-Robot-Completion-v.0.2 . CURRENT MOST UP TO DATE VERSION
+12/6/20: Stephen-Robot-Completion-v.0.2 . 
+12/6/20: Liam-Robot-Completion-v.0.3 . CURRENT MOST UP TO DATE VERSION
 
 **NOTES:**
 
