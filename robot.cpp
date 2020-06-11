@@ -48,10 +48,10 @@ void completion(double vLeft, double vRight) {
 	 
 	takePicture();
 	
-	int rowSelected = cameraView.height/2; // row used for width checking
+	int rowSelected = 0; // row used for width checking
 	int columnLeft = 0; // keft side of camera
 	int columnRight = cameraView.width - 1; // right side of camera
-	int fovArraySize = cameraView.width + 2 * (cameraView.height - rowSelected); // array size of number of pixels
+	int fovArraySize = cameraView.width + 2 * cameraView.height; // array size of number of pixels
 	int* fov = new int[fovArraySize]; // array to store all pixels white or not
 	
 	double motorR = vRight;
@@ -59,7 +59,7 @@ void completion(double vLeft, double vRight) {
 	
 	// gets the left side of robot FOV for whiteness
     for (int row = 0; row < rowSelected; row++){
-		int pix = get_pixel(cameraView, cameraView.height - 1 - row, columnLeft, 3);
+		int pix = get_pixel(cameraView, row, columnLeft, 3);
 		int isWhite;
 		
 		// checks if pixel colour is white
@@ -86,12 +86,12 @@ void completion(double vLeft, double vRight) {
 			isWhite = 0;
 		}
 		// adds the pixel to the overall array
-		fov[rowSelected + column] = isWhite;
+		fov[cameraView.height + column] = isWhite;
 	}
 	
 	// gets the right side of robot FOV for whiteness
 	for (int row = 0; row < rowSelected; row++){
-		int pix = get_pixel(cameraView, cameraView.height - 1 - row, columnRight, 3);
+		int pix = get_pixel(cameraView, row, columnRight, 3);
 		int isWhite;
 		
 		// checks if pixel colour is white
@@ -102,7 +102,7 @@ void completion(double vLeft, double vRight) {
 			isWhite = 0;
 		}
 		// adds the pixel to the overall array
-		fov[rowSelected + cameraView.width + row] = isWhite;
+		fov[cameraView.height + cameraView.width + row] = isWhite;
 	}
 	
 	int whiteCount = 0; // how many times in a row white apeears
