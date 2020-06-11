@@ -195,7 +195,7 @@ While the server program is still running. Open robot.cpp from AVC_robot. Geany 
 
 **VERSIONS:**
 
-12/6/20: Stephen-Robot-Completion-v.0.2 is the current version. We will discuss merging things onto the master branch today.
+12/6/20: Stephen-Robot-Completion-v.0.2 . CURRENT MOST UP TO DATE VERSION
 
 **NOTES:**
 
