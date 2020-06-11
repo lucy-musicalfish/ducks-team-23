@@ -107,7 +107,7 @@ All: Complete AVC plan
 
 
 Video Meeting: Monday Wednesday Friday 1pm
-* Lucy - Updating progress on github and wiki, help resolve issues on Github. Make an excel doc for logging hours and distribute to team. put ducks in code. Edit real ducks to take photo shop, to put in place of other ducks in code.
+* Lucy - Updating progress on github and wiki, help resolve issues on Github. Make an excel doc for logging hours and distribute to team. put ducks in code. Edit real ducks to take photo shop, to put in place of other ducks in code. Write install instructions into pdf to make it look nice
 * Liam - Writing code, make notes on changes. Keep track of hours and logs. Make the core code look "pretty"
 * Stephen - Write core code, document additions to code. Mark any issues on Github. Keep track of hours and logs. Photoshop our own duck photos. 
 * Toby - Writing code, make notes on changes. Keep track of your hours and logs. Make the core code look "pretty"
