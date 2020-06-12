@@ -206,3 +206,5 @@ We will have video meetings on Monday/Wednesday/Friday at 1pm. Notes from the me
 Emailed Arthur with a few questions
 Changed the github photo, made it a duck photo
 completion is up, doesnt work yet. The robot will run, but thats about it.
+Had a thorough team discussion around contributing. 
+Check the issues to see team discussion
