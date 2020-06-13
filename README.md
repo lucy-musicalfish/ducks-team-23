@@ -233,7 +233,9 @@ Open server3.cpp and make the file (build, make or just shift + F9). Now execute
 
 13/6/20: Stephen-Robot-Completion-v.0.6 . 
 
-13/6/20: Toby-Robot-Completion-v.0.7 . CURRENT MOST UP TO DATE VERSION
+13/6/20: Toby-Robot-Completion-v.0.7 .
+
+13/6/20: Lucy-Robot-Completion-v.0.8 . CURRENT MOST UP TO DATE VERSION
 
 **NOTES:**
 
@@ -245,5 +247,7 @@ completion is up, doesnt work yet. The robot will run, but thats about it.
 
 Trying to get completion to work, bit of a struggle.
 Check the issues to see team discussion
+
+Photo of wilson is up. This is a want not a need, but side objective is to make robot look like the duck
 
 Edited the install instructions here on readme. Will be tested on monday 15/6/20
