@@ -134,10 +134,10 @@ Video Meeting: Monday Wednesday Friday 1pm
 
 
 **Tasks:**
-* Lucy - Ensure all documentation is on github, on the readme. Make sure everyones logs are up to scratch. Edit and proofread stuff. Check all the issues are in place. 
-* Liam - Find someone to test the install procedure on - make sure it fits the marking criteria of "There should be clear instructions (imagine that you are writing a game for 12 years old) on how to install (download, compile, build and run) your code from the scratch (including SFML library) in Install section of README.md. It is acceptable to provide version for specific Operating System.". 
-* Stephen - Keep working on code - finish challenge, and then work on tidying up the code
-* Toby - Make sure all bugs are fixed. Work on the code
+* Lucy - Ensure all documentation is on github, on the readme. Make sure everyones logs are up to scratch. Edit and proofread stuff. Check all the issues are in place. MERGE LATEST VERSION TO MASTER- TUESDAY 16 JUNE
+* Liam - Find someone to test the install procedure on FOR WINDOWS ONLY- make sure it fits the marking criteria of "There should be clear instructions (imagine that you are writing a game for 12 years old) on how to install (download, compile, build and run) your code from the scratch (including SFML library) in Install section of README.md. It is acceptable to provide version for specific Operating System.". (Liam find someone to test Windows only, Lucy is testing Linux on Monday)
+* Stephen - Keep working on code - finish challenge, and then work on tidying up the code. If time allows, find a way to make the Robot look like Wilson (the duck) and the obstacles look like ducks/arthur. 
+* Toby - Make sure all bugs are fixed. Work on the code. If it is not fixed already, get make the core algorithm nice - currently it doesnt work at high speeds. Help Stephen finish challenge
 
 
 **Week Four Objectives**
@@ -158,40 +158,68 @@ Video Meeting: Monday Wednesday Friday 1pm
 
 
 **Tasks:**
-* Lucy - 
-* Liam -
-* Stephen - 
-* Toby - 
+* Lucy - Make sure you've finished your logs and reports
+* Liam - Make sure you've finished your logs and reports
+* Stephen - Make sure you've finished your logs and reports 
+* Toby - Make sure you've finished your logs and reports. 
 
 **INSTALL:**
 
+**Install Instructions for Windows Using Geany:**
+
 **Step 1:**
 
-Go to https://www.sfml-dev.org/download/sfml/2.5.1/ and download the MinGW 32 bit. Unzip this file into C:\ (If you can't exact here, anywhere is fine. I will explain what to do in later steps). ENSURE your MinGW version is also the same version as SFML (7.3.0).
+Go to https://www.sfml-dev.org/download/sfml/2.5.1/ and download the MinGW 64 bit version. Unzip this file into C:\ (If you can't exact here, anywhere is fine. I will explain what to do in later steps). At the same time download the MinGW 7.3.0 version located in the red warning box as these version MUST MATCH in order for SFML to work.
 
-**Step 1.1**
+**Step 2**
 
-Checking MinGW version. Open windows powershell, (search powershell), type g++ --version. It will then display the MinGW version installed on the first line at the very end. Should be 7.3.0 if not install this version else you will run into issues.
-
-**Step 2:**
-
-Download the AVC_server and AVC_robot from the Master branch of CodingForDucks GitHub page. Put this file anywhere you want E.G. C:\User\Documents\ENGR101\Assignment\Project 3
+Extract MinGW 7.3.0 64 bit version to C: drive e.g. C:\mingw64 . Next search "system environment variable" open the window. Click "Environment Variables" button. In System Variables select "Path" and click edit. Click New and add the Path location for mingw64 bin folder e.g. C:\mingw64\bin. Click OK 3 times. We can check that we have installed MinGW correctly. Open powershell and type g++ --version. It should say we have version 7.3.0. If a red error appears try restarting your computer as the new system variable might not be activated yet. Try powershell again with g++ --version and you should see the version shown as 7.3.0.
 
 **Step 3:**
 
-This step is here for if you extracted SFML to a different folder to C:. In AVC_robot open the "makefile" with Geany. Where it says DIR = C:\SFML change C:\SFML to where you extracted SFML E.G. C:\Users\Stephen\Downloads\SFML. Do the same for the AVC_server "makefile".
+Download the AVC_Win10.zip from the attachments in Assignment 3 page. Extract this to any file location you want E.G. C:\User\Documents\ENGR101\Assignment\Project3\ You will have two folders AVC_robot and AVC_server. Ensure that there are no spaces in the path name you are extracting to. Next go to CodingForDucks' github and download robot.cpp and replace robot.cpp in the AVC_robot folder.
 
 **Step 4:**
 
-Open server3.cpp from the AVC_server folder with MinGW. Open up the Build drop down menu and then click Build Setting Commands. Where it says Independent commands. Set the Make as mingw32-make. Click Ok.
+In AVC_robot open the "makefile" with Geany. Where it says DIR = C:\\SFML by default SFML extracts to SFML-2.5.1 change C:\\SFML to C:\\SFML-2.5.1 or where you extracted SFML to e.g. C:\\Users\Stephen\Downloads\SFML-2.5.1. In the make file where it just says robot: (line 5) add the extension .exe onto the name e.g. robot.exe: . Do the same for line 6 where it has robot by itself. 
+
+Repeat the above step for the AVC_server "makefile".
 
 **Step 5:**
 
-With server3.cpp still open, click build and then make, or Shift + F9. Click Execute and the server program will start. Allow it through your firewall with public/private access otherwise you will run into issues. It will most likely be a white program that has a loading icon as the mouse this is all good.
+Delete the server3.o and server3.exe from their folder (if they exist). Delete the robot.o and robot.exe from their folder (if they exist).
 
 **Step 6:**
 
-While the server program is still running. Open robot.cpp from AVC_robot. Geany will still have the custom make commands saved in its build option. All you need to do is build and then make, or Shift + F9. You then need to execute robot.cpp (F5 by default). May need to execute twice to run the program.
+From where you extracted SFML-2.5.1, Copy all the .dll files from the bin folder. Paste and replace the .dll files in both AVC_server and AVC_robot.
+
+**Step 7:**
+
+Open server3.cpp from the AVC_server folder with MinGW. Open up the Build drop down menu and then click "Build Setting Commands". Where it says Independent commands. Set the Make as mingw32-make. Click Ok.
+
+**Step 8:**
+
+With server3.cpp still open, click build and then make, or Shift + F9. Click Execute and the server program will start. Allow it through your firewall with public/private at least public access. It will most likely be a white program that has a loading icon as the mouse this is all good. It will then load the map and await the robot to start.
+
+**Step 9:**
+
+While the server program is still running. Open robot.cpp from AVC_robot in a new Geany window. Geany will still have the custom make commands saved in its build option. All you need to do is build and then make, or Shift + F9. You then need to execute robot.cpp (F5 by default). May need to execute twice to run the program.
+
+In our version you need to select which map mode you want (core, completion, or challenge). The robot will then start to move on its own.
+
+**Install Instructions for Linux Using Geany:**
+
+**Step 1:**
+
+Go to sfml-dev.org/download/sfml/2.5.1/ download the Linux 64 bit version, it downloads a zipped file. Extract it to where you want it be. For me after I extracted the SFML zip file the file location was: /home/thessmstep/ENGR101/SMFL-2.5.1
+
+**Step 2:**
+
+Download AVC_Linux from the Assignment 3 page and extract it to where you want it. Open up AVC_server folder located inside this file. Open the makefile with Geany. Where it says SFML = PATHFILE. Make the PATHFILE equal the location where you extracted SFML too. In this case: SFML = /home/thessmstep/ENGR101/SMFL-2.5.1 . Do the same for AVC_robot's makefile.
+
+**Step 3:**
+
+Open server3.cpp and make the file (build, make or just shift + F9). Now execute the file. Now open robot.cpp in a new Geany window. Make robot.cpp and then execute it also. The robot should now be functioning.
 
 **VERSIONS:**
 
@@ -213,3 +241,5 @@ completion is up, doesnt work yet. The robot will run, but thats about it.
 
 Trying to get completion to work, bit of a struggle.
 Check the issues to see team discussion
+
+Edited the install instructions here on readme. Will be tested on monday 15/6/20
