@@ -229,7 +229,9 @@ Open server3.cpp and make the file (build, make or just shift + F9). Now execute
 
 12/6/20: Toby-Robot-Completion-v.0.4 . 
 
-13/6/20: Lucy-Robot-Completion-v.0.5 . CURRENT MOST UP TO DATE VERSION
+13/6/20: Lucy-Robot-Completion-v.0.5 . 
+
+13/6/20: Stephen-Robot-Completion-v.0.6 . CURRENT MOST UP TO DATE VERSION
 
 **NOTES:**
 
