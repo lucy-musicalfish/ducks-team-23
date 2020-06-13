@@ -4,14 +4,14 @@
 void core(double vLeft, double vRight){
 	
     takePicture();
-	int row = 75;
+	int row = cameraView.height/2;
 	int average = (74 + 75 + 76 + 77) /4;
 	int error = 0;
 	double motorR = vRight;
 	double motorL = vLeft;
 	// for gets the current column and the gets the pixel at that column
-    for (int column = 0; column < 150; column++){
-		int pix = get_pixel(cameraView, 50, column, 3);
+    for (int column = 0; column < cameraView.width; column++){
+		int pix = get_pixel(cameraView, row, column, 3);
 		int isWhite;
 		
 		// checks if pixel colour is white
@@ -41,8 +41,107 @@ void core(double vLeft, double vRight){
 	setMotors(motorL,motorR);   
     std::cout<<"\nvLeft="<<motorL<<"  vRight="<<motorR<<std::endl;
     usleep(10000);
-        
 }
+
+// Completion code (Needs work a lot and needs functions to be broken into it)
+void completion(double vLeft, double vRight) {
+	 
+	takePicture();
+	
+	int rowSelected = 0; // row used for width checking
+	int columnLeft = 0; // keft side of camera
+	int columnRight = cameraView.width - 1; // right side of camera
+	int fovArraySize = cameraView.width + 2 * cameraView.height; // array size of number of pixels
+	int* fov = new int[fovArraySize]; // array to store all pixels white or not
+	
+	double motorR = vRight -20;
+	double motorL = vLeft -20;
+	
+	// gets the left side of robot FOV for whiteness
+    for (int row = 0; row < rowSelected; row++){
+		int pix = get_pixel(cameraView, row, columnLeft, 3);
+		int isWhite;
+		
+		// checks if pixel colour is white
+		if(pix > 250){
+			isWhite = 1;
+			
+		} else {
+			isWhite = 0;
+		}
+		// adds the pixel to the overall array
+		fov[row] = isWhite;
+	}
+	
+	// gets the center side of robot FOV for whiteness
+    for (int column = 0; column < cameraView.width; column++){
+		int pix = get_pixel(cameraView, rowSelected, column, 3);
+		int isWhite;
+		
+		// checks if pixel colour is white
+		if(pix > 250){
+			isWhite = 1;
+			
+		} else {
+			isWhite = 0;
+		}
+		// adds the pixel to the overall array
+		fov[cameraView.height + column] = isWhite;
+	}
+	
+	// gets the right side of robot FOV for whiteness
+	for (int row = 0; row < rowSelected; row++){
+		int pix = get_pixel(cameraView, row, columnRight, 3);
+		int isWhite;
+		
+		// checks if pixel colour is white
+		if(pix > 250){
+			isWhite = 1;
+			
+		} else {
+			isWhite = 0;
+		}
+		// adds the pixel to the overall array
+		fov[cameraView.height + cameraView.width + row] = isWhite;
+	}
+	
+	int whiteCount = 0; // how many times in a row white apeears
+	int sumCoords = 0; // the coords of the white in a rows
+	// iterate through all array values
+	for (int pos = 0; pos < fovArraySize; pos++){
+		
+		// if white add to whiteCOunt and add the position to sumCoords
+		if(fov[pos] == 1){
+			std::cout<<fov[pos]<<std::endl;
+			whiteCount += 1;
+			sumCoords += pos;
+		}		
+		else if(whiteCount != 0){ // checks if white count is not zero so only runs when it finds a white cluster
+			std::cout<<"\nNumber of white pixels: "<<whiteCount<<std::endl;
+			int averagePos = sumCoords / whiteCount; // calculates the average pixel location of the summed pos
+			std::cout<<"Average white coord is: "<<averagePos<<std::endl;
+			
+			// needs  changing does not work.
+			if (averagePos >= fovArraySize/2 + 2 && averagePos <= fovArraySize){ // if there is white on the right change motor speed to enable us to go io it.
+				motorL = vLeft + averagePos/vLeft;
+			} 
+			else if (averagePos >= 0 && averagePos <= fovArraySize/2 - 2){ // else if there is white on the left change motor speed to enable us to go to it
+				motorR = vRight + averagePos/vRight;
+			}
+			
+		// reset whiteCount and sumcoords so that next itereationg of white patch ahs fresh values
+			whiteCount =0;
+			sumCoords = 0;
+		}
+	}
+	
+	
+	// sets motor speed
+	setMotors(motorL,motorR);   
+    std::cout<<"\nvLeft="<<motorL<<"  vRight="<<motorR<<std::endl;
+    usleep(10000);
+}
+
 
 int main(){
 	if (initClientRobot() !=0){
@@ -69,6 +168,8 @@ int main(){
     while(1){
 		if (robotVersion == "core"){
 			core(vLeft, vRight);
+		} else if (robotVersion == "completion") {
+			completion(vLeft, vRight);
 		}
 		
   } //while
