@@ -199,7 +199,9 @@ While the server program is still running. Open robot.cpp from AVC_robot. Geany 
 
 12/6/20: Liam-Robot-Completion-v.0.3 . 
 
-12/6/20: Toby-Robot-Completion-v.0.4 . CURRENT MOST UP TO DATE VERSION
+12/6/20: Toby-Robot-Completion-v.0.4 . 
+
+13/6/20: Lucy-Robot-Completion-v.0.5 . CURRENT MOST UP TO DATE VERSION
 
 **NOTES:**
 
@@ -208,5 +210,6 @@ We will have video meetings on Monday/Wednesday/Friday at 1pm. Notes from the me
 Emailed Arthur with a few questions
 Changed the github photo, made it a duck photo
 completion is up, doesnt work yet. The robot will run, but thats about it.
-Had a thorough team discussion around contributing. 
+
+Trying to get completion to work, bit of a struggle.
 Check the issues to see team discussion
