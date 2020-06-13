@@ -165,6 +165,12 @@ Video Meeting: Monday Wednesday Friday 1pm
 
 **INSTALL:**
 
+**CUSTOM ROBOT ICON MUST HAVE YES YES!!!**
+
+HELLO Tutors & Arthur!!! Today is a good day. For we all know how much the ECS department (aka Arthur and the Tutors) LOVE. DUCKS. We here at CodingForDucks have decided that the simple robot icon was too boring. So I have spent some time changing the robot icon. Now I know I had to change the server3.cpp file which is against the marking code. BUT I promise you, promise you that I did not touch the robot x,y coords at all the robot still has to make its way through the maze. Otherwise it is too boring
+
+BUT please download our server3.cpp and Wilson.png for an AMAZING robot icon and place them in the AVC_server folder that you have. 
+
 **Install Instructions for Windows Using Geany:**
 
 **Step 1:**
