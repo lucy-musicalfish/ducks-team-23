@@ -243,7 +243,9 @@ Open server3.cpp and make the file (build, make or just shift + F9). Now execute
 
 13/6/20: Lucy-Robot-Completion-v.0.8 . 
 
-14/6/20: Lucy-Robot-Challenge-v.0.9 . CURRENT MOST UP TO DATE VERSION
+14/6/20: Lucy-Robot-Challenge-v.0.9 . 
+
+15/6/20: Stephen-Robot-Challenge-v.1.0 . CURRENT MOST UP TO DATE VERSION
 
 **NOTES:**
 
