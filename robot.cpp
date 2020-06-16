@@ -146,14 +146,14 @@ void completion(double vSpeed) {
 }
 
 // Challenge code (Needs work)
-void challenge(double vSpeed) {
+int challenge(double vSpeed, int turnCounter) {
 	 
 	takePicture();
 	
-	int rowSelected = 80; // row used for width checking
-	int columnLeft = 0; // left side of camera
-	int columnRight = cameraView.width - 1; // right side of camera
-	int fovArraySize = cameraView.width + 2 * cameraView.height; // array size of number of pixels
+	int rowSelected = 75; // row used for width checking
+	int columnLeft = 10; // left side of camera
+	int columnRight = cameraView.width - 6; // right side of camera
+	int fovArraySize = cameraView.width + 2 * (cameraView.height - rowSelected); // array size of number of pixels
 	int* fov = new int[fovArraySize]; // array to store all pixels white or not
 	
 	double motorR = vSpeed;
@@ -173,7 +173,7 @@ void challenge(double vSpeed) {
 			isRed = 0;
 		}
 		// adds the pixel to the overall array
-		fov[row] = isRed;
+		fov[row - rowSelected] = isRed;
 	}
 	
 	// gets the center side of robot FOV for whiteness
@@ -190,7 +190,7 @@ void challenge(double vSpeed) {
 			isRed = 0;
 		}
 		// adds the pixel to the overall array
-		fov[cameraView.height + column] = isRed;
+		fov[(cameraView.height - rowSelected) + column] = isRed;
 	}
 	
 	// gets the right side of robot FOV for whiteness
@@ -208,14 +208,23 @@ void challenge(double vSpeed) {
 			isRed = 0;
 		}
 		// adds the pixel to the overall array
-		fov[cameraView.height + cameraView.width + row] = isRed;
+		fov[(cameraView.height - rowSelected) + cameraView.width + (row - rowSelected)] = isRed;
 	}
 	int redCount = 0; // how many times in a row red appears
 	int sumCoords = 0; // the coords of the white in a rows
 	int averagePos = 0;
 	bool fovContainsRed = false;
+	double kp = 0.5;
+	double error  = 0;
 	
-	int* redPos = new int[2] {0, 0}; // used to determine if there is red on the left sid eof robot or right side of robot or both
+	int leftBlockedCount = 0;
+	int topBlockedCount = 0;
+	int rightBlockedCount = 0;
+	
+	bool leftB = false;
+	bool topB = false;
+	bool rightB = false;
+	
 	// iterate through all array values
 	for (int pos = 0; pos < fovArraySize; pos++){
 		
@@ -226,52 +235,123 @@ void challenge(double vSpeed) {
 			sumCoords += pos;
 			fovContainsRed = true;
 			
-			
-		} else if(redCount > 0){ // checks if white count is not zero so only runs when it finds a red cluster
-			averagePos = sumCoords / redCount; // calculates the average pixel location of the summed pos
-			
-			// thouht I could use the fact that when you split the FOVarraysize in half you would know if the position is on the left or right of screen and use this to determine if a U bend had shown up.
-			if (averagePos > fovArraySize /2){
-				redPos[1] = averagePos;
-			}else {
-				redPos[0] = averagePos;
+		}
+		if (pos < cameraView.height - rowSelected){
+			if (fov[pos] == 1){
+				leftBlockedCount += 1;
 			}
-			
-			std::cout<<"\nNumber of red pixels: "<<redCount<<std::endl;
-			std::cout<<"Average red coord is: "<<averagePos<<std::endl;
-			
-			if (averagePos > 100 && averagePos < 200 && get_pixel(cameraView, rowSelected, cameraView.width/2, 3) < 250){ // if position is higher than follow left but less than a wall on the right and no white line is detected
-				// rotate right to realign with maze
-				motorR = -2.5;
-				motorL = 2.5;
+		} else if (pos < (cameraView.height - rowSelected) + cameraView.width){
+			if (fov[pos] == 1){
+				topBlockedCount += 1;
 			}
-			
-			// reset redCount and sumCoords so that next itereationg of white patch ahs fresh values
-			redCount =0;
-			sumCoords = 0;
-			
+		} else {
+			if (fov[pos] == 1){
+				rightBlockedCount += 1;
+			}
 		}
 		
 	}
 	
-	// checks if robot has no red or white line and then rotates it.
-	if(fovContainsRed == false && get_pixel(cameraView, rowSelected, cameraView.width/2, 3) < 250) {
-		motorR = 15;
-		motorL = -15;
-		
+	if(redCount != 0){
+		averagePos = sumCoords / redCount; // calculates the average pixel location of the summed pos
+		std::cout<<"\nNumber of red pixels: "<<redCount<<std::endl;
+		std::cout<<"Average red coord is: "<<averagePos<<std::endl;
 	}
+	if (redCount < 40 && redCount > 0 && averagePos < 30){
+		turnCounter = 0;
+	}
+	
+	if (leftBlockedCount >= 15){
+		std::cout<<"LEFT Side Blocked"<<std::endl;
+		leftB = true;
+	}
+	
+	if (topBlockedCount >= fovArraySize/4){
+		std::cout<<"TOP Side Blocked"<<std::endl;
+		topB = true;
+	}
+	
+	if (rightBlockedCount >= 20){		
+		std::cout<<"RIGHT Side Blocked"<<std::endl;
+		rightB = true;
+	}
+	
+	// logic for seeing what way to turn
+	if (!leftB && topB && !rightB){
+		std::cout<<"Forward Blocked, Turn Right"<<std::endl;
+		error = 169;
+		
+	} else if (leftB && topB && rightB){
+		std::cout<<"Dead End"<<std::endl;
+		vSpeed = 0;
+		
+	} else if (leftB && topB && !rightB){
+		std::cout<<"Left and Forward Blocked, Turn Right"<<std::endl;
+		error = 169;
+		
+	} else if (!leftB && topB && rightB){
+		std::cout<<"Forward and Right Blocked, Turn Left"<<std::endl;
+		error = -169;
+	} else if (leftB && !topB && rightB){
+		std::cout<<"Left and Right Blocked, Forward!"<<std::endl;
+		error = 0;
+	} else if(!leftB && !topB && rightB){
+		std::cout<<"Left Clear, Turn Left!"<<std::endl;
+		
+		error = -6;
+		vSpeed = 29;
+	}	
+	
+	// checks if robot has no red or white line and then rotates it.
+	if((turnCounter > 0 && redCount < 20) || fovContainsRed == false && get_pixel(cameraView, rowSelected, cameraView.width/2, 3) < 250) {
+		if (turnCounter <= 8){
+			
+			std::cout<<"No red turn left!"<<std::endl;
+			 
+			if(turnCounter % 2 == 1){
+				if(turnCounter < 8){
+					error = -17.8;
+				} else {
+					error =0;
+					vSpeed = 40;
+					
+				}
+				turnCounter +=1;
+				
+			} else {
+				if(turnCounter < 7){
+					error = -21.75;
+					vSpeed  = 25;
+				} else {
+					error =0;
+					vSpeed = 40;
+				}
+				turnCounter +=1;
+			}
+			
+		} else {
+			turnCounter =0;
+			vSpeed = 25;
+		}
+	}
+		
+	motorL = vSpeed + kp * error;
+	motorR = vSpeed - kp * error;
+	
+	
 	
 	// sets motor speed
 	setMotors(motorL,motorR);   
     std::cout<<"\nvLeft="<<motorL<<"  vRight="<<motorR<<std::endl;
     usleep(10000);
+    return turnCounter;
 }
 
 int main(){
 	if (initClientRobot() !=0){
 		std::cout<<" Error initializing robot"<<std::endl;
 	}
-    double vSpeed = 30.0;
+    double vSpeed = 40.0;
     std::string robotVersion;
     
     while(1){ // Allows the user to choose what robot version to use 
@@ -288,13 +368,15 @@ int main(){
 		}
 	}
 	
+	int turnCounterChal = 0;
+	
     while(1){
 		if (robotVersion == "core"){
 			core(vSpeed);
 		} else if (robotVersion == "completion") {
 			completion(vSpeed);
 		} else if (robotVersion == "challenge") {
-			challenge (vSpeed);
+			turnCounterChal = challenge (vSpeed, turnCounterChal);
 		}
 	
 		
