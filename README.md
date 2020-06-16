@@ -247,6 +247,8 @@ Open server3.cpp and make the file (build, make or just shift + F9). Now execute
 
 15/6/20: Stephen-Robot-Challenge-v.1.0 . CURRENT MOST UP TO DATE VERSION
 
+16/6/20: Liam-Robot-Challenge-v.1.1 .CURRENT MOST UP TO DATE VERSION
+
 **NOTES:**
 
 Core works, now need to finesse it.
