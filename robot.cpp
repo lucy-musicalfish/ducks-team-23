@@ -156,8 +156,8 @@ void challenge(double vSpeed) {
 	int fovArraySize = cameraView.width + 2 * cameraView.height; // array size of number of pixels
 	int* fov = new int[fovArraySize]; // array to store all pixels white or not
 	
-	double motorR = vSpeed;
-	double motorL = vSpeed;
+	double motorR = 40;
+	double motorL = 20;
 	
 	// gets the left side of robot FOV for whiteness
 	for (int row = rowSelected; row < cameraView.height; row++){
@@ -255,11 +255,11 @@ void challenge(double vSpeed) {
 	}
 	
 	// checks if robot has no red or white line and then rotates it.
-	if(fovContainsRed == false && get_pixel(cameraView, rowSelected, cameraView.width/2, 3) < 250) {
-		motorR = 15;
-		motorL = -15;
+	//else(get_pixel(cameraView, rowSelected, cameraView.width/2, 3) < 250) {
+		//motorR = 15;
+		//motorL = -15;
 		
-	}
+	//}
 	
 	// sets motor speed
 	setMotors(motorL,motorR);   
