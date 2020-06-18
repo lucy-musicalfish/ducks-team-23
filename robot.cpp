@@ -25,7 +25,6 @@ void core(double vSpeed){
 		} else {
 			isWhite = 0;
 		}
-		std::cout<<isWhite<<" ";
 	}
 	
 	// adjust motor speed based on error and kp values
@@ -108,22 +107,20 @@ void completion(double vSpeed) {
 	
 	int whiteCount = 0; // how many times in a row white apeears
 	int sumCoords = 0; // the coords of the white in a rows
-	bool fovContainsWhite = false;
+	bool fovContainsWhite = false; //
 	// iterate through all array values
 	for (int pos = 0; pos < fovArraySize; pos++){
 		
 		// if white add to whiteCount and add the position to sumCoords
 		if(fov[pos] == 1){
-			std::cout<<fov[pos]<<std::endl;
 			whiteCount += 1;
 			sumCoords += pos;
 			fovContainsWhite = true;
 		}
 		
 		else if(whiteCount != 0){ // checks if white count is not zero so only runs when it finds a white cluster
-			std::cout<<"\nNumber of white pixels: "<<whiteCount<<std::endl;
 			int averagePos = sumCoords / whiteCount; // calculates the average pixel location of the summed pos
-			std::cout<<"Average white coord is: "<<averagePos<<std::endl;
+			
 			
 			// motor speed changer if the white is not in the center of the camera.
 			if (averagePos >= 0 && averagePos <= fovArraySize/2 - 2){ // if there is white on the left change motor speed to enable us to go to it
@@ -137,14 +134,12 @@ void completion(double vSpeed) {
 			whiteCount =0;
 			sumCoords = 0;
 		}
-		
 	}
 	// If robot has reached a deadend where the white is gone. Make it turn around.
 	if(fovContainsWhite == false) {
 		motorR = -20;
 		motorL = 20;
 	}	
-	
 	// sets motor speed
 	setMotors(motorL,motorR);   
     std::cout<<"\nvLeft="<<motorL<<"  vRight="<<motorR<<std::endl;
@@ -240,27 +235,22 @@ void challenge(double vSpeed) {
 		
 		// checks if the wall in on the left if so lets user know. Has a error range as robot does not fully stay aligned to wall 
 		if(firstRedPos <= 5 && lastRedPos <= 38){
-			std::cout<<"The wall is on the left"<<std::endl;
 		
 		// determines if the wall is on the left and forward and makes robot turn right
 		} else if (firstRedPos <= 23 && lastRedPos == fovArraySize - 1 && redCount >= fovArraySize - 5){
-			std::cout<<"The wall is on the left and forward"<<std::endl;
 			motorR = -84.3;
 			motorL = 84.3;
 		
 		// determines if the wall is only in front and then turns left
 		} else if (redCount >= cameraView.width / 2){
-			std::cout<<"Forward wall only turn right"<<std::endl;
 			motorR = -84.3;
 			motorL = 84.3;
 			
 		} else if(whiteCount > 0){ // if robot see white line let user know
-			std::cout<<"Following white line"<<std::endl;
 		
 		// used to determine if there is no white on left no matter if there is red on right
-		} else if (firstRedPos > fovArraySize / 2){
-			
-			std::cout<<"No red on left TURNING!"<<std::endl;
+		} else if (firstRedPos > fovArraySize / 2){		
+
 			// this for loop makes the robot "Sleep" it makes it go forward a certain distance and then turn.
 			for (int i = 0; i < 20; i++){
 				
