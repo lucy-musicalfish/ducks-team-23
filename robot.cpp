@@ -1,14 +1,13 @@
 #include "robot.hpp"
 
-// core maze function for robot
-void core(double vSpeed){
+/**Core Code*/
+void do_core(double vSpeed, double kp, int error){
 	
     takePicture();
-	int row = cameraView.height*9/10 ; // robot sees the 10th row infront of it. Makes it so robot does not cut too much of corner
-	int average = (74 + 75 + 76 + 77) /4; // where the white should be centered on the camera
-	int error = 0; // how far off center the robot is
-	double kp = 0.5; // the correction 
-	// for gets the current column and the gets the pixel at that column
+	int row = cameraView.height - 10 ; // robot sees the 10th row infront of it. Makes it so robot does not cut too much of corner
+	int center = cameraView.width /2;
+	
+	// checks if the current pixel is white or not going through all columns
     for (int column = 0; column < cameraView.width; column++){
 		int pix = get_pixel(cameraView, row, column, 3);
 		int isWhite;
@@ -18,17 +17,16 @@ void core(double vSpeed){
 			isWhite = 1;
 			
 			// determines the error that the white line is at. If the column of the white does not equal the rough middle of the camera
-			if(column != average - 2 || column != average - 1 || column != average || column != average + 1){
-				error = column - average;
+			if(!(column >= center - 2 && column <= center + 2)){
+				error = column - center;
 			}
 			
 		} else {
 			isWhite = 0;
 		}
-		std::cout<<isWhite<<" ";
 	}
 	
-	// adjust motor speed based on erro and kp values
+	// adjust motor speed based on error and kp values
 	double motorL = vSpeed + kp * error;
 	double motorR = vSpeed - kp * error;
 	
@@ -38,40 +36,12 @@ void core(double vSpeed){
     usleep(10000);
 }
 
-// Completion code (Needs work a lot and needs functions to be broken into it)
-void completion(double vSpeed) {
-	 
-	takePicture();
-	
-	int rowSelected = 80; // row used for width checking
-	int columnLeft = 0; // keft side of camera
-	int columnRight = cameraView.width - 1; // right side of camera
-	int fovArraySize = cameraView.width + 2 * cameraView.height; // array size of number of pixels
-	int* fov = new int[fovArraySize]; // array to store all pixels white or not
-	
-	double motorR = vSpeed -15;
-	double motorL = vSpeed -15;
-	
-	// gets the left side of robot FOV for whiteness
-    for (int column = 0; column < cameraView.width; column++) { 
-		for (int row = rowSelected; row < cameraView.height; row++){
-			int pix = get_pixel(cameraView, row, columnLeft, 3);
-			int isWhite;
-			
-			// checks if pixel colour is white
-			if(pix > 250){
-				isWhite = 1;
-				
-			} else {
-				isWhite = 0;
-			}
-			// adds the pixel to the overall array
-			fov[row] = isWhite;
-		}
-	}
-	// gets the center side of robot FOV for whiteness
-    for (int column = 0; column < cameraView.width; column++){
-		int pix = get_pixel(cameraView, rowSelected, column, 3);
+/**Function for looping through the cameraView and getting pixel values for Completion*/
+void loopPixelRowArray(int rowSelected, int column, int *fov, int colourValue){
+	// gets the whiteness of the FOV
+	for (int row = rowSelected; row < cameraView.height; row++){
+		// get the pixel colour at our current row and columnLeft
+		int pix = get_pixel(cameraView, row, column, colourValue);
 		int isWhite;
 		
 		// checks if pixel colour is white
@@ -81,184 +51,190 @@ void completion(double vSpeed) {
 		} else {
 			isWhite = 0;
 		}
+		int index = 0;
+		
+		// determines which side the function was called on. columnLeft or columnRight
+		if (column < cameraView.width /2){
+			index = row - rowSelected;
+		} else if( column > cameraView.width * (3/4)){
+			index = (cameraView.height - rowSelected) + cameraView.width + row;
+		}
 		// adds the pixel to the overall array
-		fov[cameraView.height + column] = isWhite;
+		fov[index] = isWhite;
+	}
+	
+}
+
+/**Completion Code*/
+void do_completion(double vSpeed, double kp, int error) {
+	 
+	takePicture();
+	
+	int rowSelected = cameraView.height - 5; // row used for width checking
+	int columnLeft = 0; // left side of camera
+	int columnRight = cameraView.width - 1; // right side of camera
+	int fovArraySize = cameraView.width + 2 * (cameraView.height - rowSelected); // array size of number of pixels
+	int* fov = new int[fovArraySize]; // array to store all pixels white or not
+	
+	// gets the left side of robot FOV for whiteness
+	loopPixelRowArray(rowSelected, columnLeft, fov, 3);
+	
+	// gets the center side of robot FOV for whiteness
+    for (int column = 0; column < cameraView.width; column++){
+		// get the pixel colour at our current row and columnLeft
+		int pix = get_pixel(cameraView, rowSelected, column, 3);
+		int isWhite;
+		
+		// checks if pixel colour is white or black so we stop at flag
+		if(pix > 250 || pix < 10){
+			isWhite = 1;
+			
+		} else {
+			isWhite = 0;
+		}
+		// adds the pixel to the overall array
+		fov[(cameraView.height - rowSelected) + column] = isWhite;
 	}
 	
 	// gets the right side of robot FOV for whiteness
-	for (int column = cameraView.width - 10; column < cameraView.width; column++) {
-		for (int row = rowSelected; row < cameraView.height; row++){
-			int pix = get_pixel(cameraView, row, columnRight, 3);
-			int isWhite;
-			
-			// checks if pixel colour is white
-			if(pix > 250){
-				isWhite = 1;
-				
-			} else {
-				isWhite = 0;
-			}
-			// adds the pixel to the overall array
-			fov[cameraView.height + cameraView.width + row] = isWhite;
-		}
-	}
+	loopPixelRowArray(rowSelected, columnRight, fov, 3);
+	
 	int whiteCount = 0; // how many times in a row white apeears
 	int sumCoords = 0; // the coords of the white in a rows
-	bool fovContainsWhite = false;
+	bool fovContainsWhite = false; // dertermines if robot hit dead end or not
+	
 	// iterate through all array values
 	for (int pos = 0; pos < fovArraySize; pos++){
 		
-		// if white add to whiteCOunt and add the position to sumCoords
+		// if white add to whiteCount and add the position to sumCoords
 		if(fov[pos] == 1){
-			std::cout<<fov[pos]<<std::endl;
 			whiteCount += 1;
 			sumCoords += pos;
 			fovContainsWhite = true;
-		}		
-		else if(whiteCount != 0){ // checks if white count is not zero so only runs when it finds a white cluster
-			std::cout<<"\nNumber of white pixels: "<<whiteCount<<std::endl;
+			
+		} else if(whiteCount != 0){ // checks if white count is not zero so only runs when it finds a white cluster
 			int averagePos = sumCoords / whiteCount; // calculates the average pixel location of the summed pos
-			std::cout<<"Average white coord is: "<<averagePos<<std::endl;
 			
-			// needs  changing does not work.
-			if (averagePos >= 0 && averagePos <= fovArraySize/2 - 2){ // else if there is white on the left change motor speed to enable us to go to it
-				motorR = vSpeed + averagePos/vSpeed * vSpeed/10;
-			}
-			else if (averagePos >= fovArraySize/2 + 2 && averagePos <= fovArraySize){ // if there is white on the right change motor speed to enable us to go io it.
-				motorL = vSpeed + averagePos/vSpeed * vSpeed/10;
-			} 
+			// determines the error of the white from center
+			error = averagePos - fovArraySize/2 ;
 			
-		// reset whiteCount and sumcoords so that next itereationg of white patch ahs fresh values
+			// reset whiteCount and sumcoords so that next itereationg of white patch ahs fresh values
 			whiteCount =0;
 			sumCoords = 0;
 		}
-		
 	}
+	
+	// sets motor speeds
+	double motorL = vSpeed + kp * error;
+	double motorR = vSpeed - kp * error;
+	// If robot has reached a deadend where the white is gone. Make it turn around.
 	if(fovContainsWhite == false) {
 		motorR = -20;
 		motorL = 20;
 	}	
-	
 	// sets motor speed
 	setMotors(motorL,motorR);   
     std::cout<<"\nvLeft="<<motorL<<"  vRight="<<motorR<<std::endl;
     usleep(10000);
 }
 
-// Challenge code (Needs work)
-void challenge(double vSpeed) {
+
+/**Challenge Code*/
+void do_challenge(double vSpeed) {
 	 
 	takePicture();
 	
 	int rowSelected = 80; // row used for width checking
-	int columnLeft = 0; // left side of camera
-	int columnRight = cameraView.width - 1; // right side of camera
-	int fovArraySize = cameraView.width + 2 * cameraView.height; // array size of number of pixels
+	int columnLeft = 5; // left side of camera
+	int columnHeight = cameraView.height - rowSelected; // the amount of pixels between our robot and rowSelected
+	
+	int fovArraySize = cameraView.width + columnHeight; // array size of number of pixels
 	int* fov = new int[fovArraySize]; // array to store all pixels white or not
 	
+	// default motor speeds
 	double motorR = vSpeed;
 	double motorL = vSpeed;
 	
 	// gets the left side of robot FOV for whiteness
-	for (int row = rowSelected; row < cameraView.height; row++){
-		int pixRed = get_pixel(cameraView, row, columnLeft, 0);
-		int pixGreen = get_pixel(cameraView, row, columnLeft, 1);
-		int pixBlue = get_pixel(cameraView, row, columnLeft, 2);
-		int isRed;
-		
-		// check if left side is red
-		if (pixRed > 250 && pixGreen < 50 && pixBlue < 50){
-			isRed =1;
-		}else {
-			isRed = 0;
-		}
-		// adds the pixel to the overall array
-		fov[row] = isRed;
-	}
+	loopPixelRowArray(rowSelected, columnLeft, fov, 0);
 	
 	// gets the center side of robot FOV for whiteness
     for (int column = 0; column < cameraView.width; column++){
+		
+		// gets the red, green, and blue values of the pixel
 		int pixRed = get_pixel(cameraView, rowSelected, column, 0);
-		int pixGreen = get_pixel(cameraView, rowSelected, column, 1);
-		int pixBlue = get_pixel(cameraView, rowSelected, column, 2);
 		int isRed;
 		
-		// check if middle is red
-		if (pixRed > 250 && pixGreen < 50 && pixBlue < 50){
-			isRed = 1;
+		// check if middle is red or has a white line so that robot can find maze first
+		if (pixRed > 250 || get_pixel(cameraView, rowSelected, cameraView.width/2, 3) > 250){
+			
+			// if the pixel is white add a 2 if red add one
+			if( get_pixel(cameraView, rowSelected, cameraView.width/2, 3) > 250){
+				isRed = 2;
+			} else {
+				isRed = 1;
+			}
 		}else {
 			isRed = 0;
 		}
 		// adds the pixel to the overall array
-		fov[cameraView.height + column] = isRed;
+		fov[columnHeight + column] = isRed;
 	}
 	
-	// gets the right side of robot FOV for whiteness
-	for (int row = rowSelected; row < cameraView.height; row++){
-		int pix = get_pixel(cameraView, row, columnRight, 3);
-		int pixRed = get_pixel(cameraView, row, columnRight, 0);
-		int pixGreen = get_pixel(cameraView, row, columnRight, 1);
-		int pixBlue = get_pixel(cameraView, row, columnRight, 2);
-		int isRed;
-		
-		// check if right side is red
-		if (pixRed > 250 && pixGreen < 50 && pixBlue < 50){
-			isRed =1;
-		}else {
-			isRed = 0;
-		}
-		// adds the pixel to the overall array
-		fov[cameraView.height + cameraView.width + row] = isRed;
-	}
 	int redCount = 0; // how many times in a row red appears
-	int sumCoords = 0; // the coords of the white in a rows
-	int averagePos = 0;
-	bool fovContainsRed = false;
+	int whiteCount = 0; // used at the start so robot can find maze
+	int firstRedPos = fovArraySize; // the first appearence of red in the array
+	int lastRedPos = 0; // the last appearence of red in the array
 	
-	int* redPos = new int[2] {0, 0}; // used to determine if there is red on the left sid eof robot or right side of robot or both
 	// iterate through all array values
 	for (int pos = 0; pos < fovArraySize; pos++){
 		
-		// if white add to whiteCOunt and add the position to sumCoords
+		// if red add to redCount and add the position to sumCoords
 		if(fov[pos] == 1){
-			//std::cout<<fov[pos]<<std::endl;
-			redCount += 1;
-			sumCoords += pos;
-			fovContainsRed = true;
+			redCount += 1; // add one to red count
 			
+			if( pos <= firstRedPos) {// checks to see if the current position is the first appearence of the red pixel
+				firstRedPos = pos;
 			
-		} else if(redCount > 0){ // checks if white count is not zero so only runs when it finds a red cluster
-			averagePos = sumCoords / redCount; // calculates the average pixel location of the summed pos
-			
-			// thouht I could use the fact that when you split the FOVarraysize in half you would know if the position is on the left or right of screen and use this to determine if a U bend had shown up.
-			if (averagePos > fovArraySize /2){
-				redPos[1] = averagePos;
-			}else {
-				redPos[0] = averagePos;
+			// checks to see if the current postion is the last appearence of the red pixel
+			} else if (pos >= lastRedPos){
+				lastRedPos = pos;
 			}
-			
-			std::cout<<"\nNumber of red pixels: "<<redCount<<std::endl;
-			std::cout<<"Average red coord is: "<<averagePos<<std::endl;
-			
-			if (averagePos > 100 && averagePos < 200 && get_pixel(cameraView, rowSelected, cameraView.width/2, 3) < 250){ // if position is higher than follow left but less than a wall on the right and no white line is detected
-				// rotate right to realign with maze
-				motorR = -2.5;
-				motorL = 2.5;
-			}
-			
-			// reset redCount and sumCoords so that next itereationg of white patch ahs fresh values
-			redCount =0;
-			sumCoords = 0;
-			
+		} else if(fov[pos] == 2){ // checks if the pix is white for a line to follow into the maze
+			whiteCount += 1;
 		}
-		
 	}
 	
-	// checks if robot has no red or white line and then rotates it.
-	if(fovContainsRed == false && get_pixel(cameraView, rowSelected, cameraView.width/2, 3) < 250) {
-		motorR = 15;
-		motorL = -15;
+	if(redCount > 0 || whiteCount > 0){ // checks if red or white count is not zero so only runs when it finds a red cluster or the white line
 		
+		// checks if the wall in on the left if so lets user know. Has a error range as robot does not fully stay aligned to wall 
+		if(firstRedPos <= 5 && lastRedPos <= 38){
+		
+		// determines if the wall is on the left and forward and makes robot turn right
+		} else if (firstRedPos <= 23 && lastRedPos == fovArraySize - 1 && redCount >= fovArraySize - 5){
+			motorR = -84.3;
+			motorL = 84.3;
+		
+		// determines if the wall is only in front and then turns left
+		} else if (redCount >= cameraView.width / 2){
+			motorR = -84.3;
+			motorL = 84.3;
+			
+		} else if(whiteCount > 0){ // if robot see white line let user know
+		
+		// used to determine if there is no white on left no matter if there is red on right
+		} else if (firstRedPos > fovArraySize / 2){		
+
+			// this for loop makes the robot "Sleep" it makes it go forward a certain distance and then turn.
+			for (int i = 0; i < 20; i++){
+				
+				setMotors(motorL,motorR);
+				usleep(10000);
+			}
+			// makes robot turn left
+			motorR = 84.3;
+			motorL = -84.3;
+		}
 	}
 	
 	// sets motor speed
@@ -267,11 +243,14 @@ void challenge(double vSpeed) {
     usleep(10000);
 }
 
+/** Main Loop*/
 int main(){
 	if (initClientRobot() !=0){
 		std::cout<<" Error initializing robot"<<std::endl;
 	}
-    double vSpeed = 30.0;
+    double vSpeed = 40.0; // the base speed of the motors
+    double kp = 0.5; // the error correction value
+    int error = 0; // the error of white being in the center of screen
     std::string robotVersion;
     
     while(1){ // Allows the user to choose what robot version to use 
@@ -288,18 +267,15 @@ int main(){
 		}
 	}
 	
-    while(1){
-		if (robotVersion == "core"){
-			core(vSpeed);
-		} else if (robotVersion == "completion") {
-			completion(vSpeed);
-		} else if (robotVersion == "challenge") {
-			challenge (vSpeed);
+    while(1){ // always run
+		if (robotVersion == "core"){ // run the core version
+			do_core(vSpeed, kp, error);
+		} else if (robotVersion == "completion") { // run the completion version
+			do_completion(vSpeed, kp, error);
+		} else if (robotVersion == "challenge") { // run the challenge version
+			do_challenge (vSpeed);
 		}
-	
-		
-  } //while
+  }
   
   return 0;
-
-} // main
+}
